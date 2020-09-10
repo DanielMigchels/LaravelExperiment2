@@ -7,35 +7,28 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Stap 2: Maak je controllers
+
+    //Gedeeltelijk automatisch gegenereerd
+    //  php artisan make:controller ProductController --resource --model=Product
+
+
+    //Laad de products view (Lijst met producten)
     public function index()
     {
         $products = Product::latest()->paginate(5);
   
-        return view('products.index',compact('products'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('products.index',compact('products'));
     }
    
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //Opent de create view
     public function create()
     {
         return view('products.create');
     }
   
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //Functie voor het aanmaken van een product
+    //Redirect automatisch naar index met parameter van goedkeuring
     public function store(Request $request)
     {
         $request->validate([
@@ -49,35 +42,19 @@ class ProductController extends Controller
                         ->with('success','Product created successfully.');
     }
    
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
+    //Laat een product zien met de show view
     public function show(Product $product)
     {
         return view('products.show',compact('product'));
     }
    
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
+    //Laat een product zien met de update view
     public function edit(Product $product)
     {
         return view('products.edit',compact('product'));
     }
   
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
+    //Werkt een product bij, en stuurt je door naar index met een update.
     public function update(Request $request, Product $product)
     {
         $request->validate([
@@ -91,12 +68,7 @@ class ProductController extends Controller
                         ->with('success','Product updated successfully');
     }
   
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
+    //Verwijderd een product uit de database (Hard-delete!)
     public function destroy(Product $product)
     {
         $product->delete();
